@@ -17,12 +17,15 @@ Intenta recrear el movimiento de la tortuga únicamente con texto, usando funcio
 def avanzar():
     print("Simulación sencilla de la tortuga avanzando.")
     pasos = int(input("¿Cuántos pasos avanza la tortuga? "))
+
+    if pasos <= 0:
+        print("La tortuga no se mueve.")
+        return
     
-    # Dibujo del movimiento hacia la derecha
     print("Tortuga avanzando hacia la derecha...")
-    print("→" * pasos)
-    
-    # Mensaje descriptivo
+    camino = "-" * (pasos - 1) + "→"
+    print(camino)
+
     print(f"La tortuga avanzó {pasos} pasos hacia la derecha.")
 
 if __name__ == "__main__":
@@ -46,10 +49,17 @@ Crea el rastro de una tortuga moviéndose hacia abajo usando únicamente `print(
 def bajar():
     print("Simulación de la tortuga bajando.")
     pasos = int(input("¿Cuántos pasos baja la tortuga? "))
-    
+
+    if pasos <= 0:
+        print("La tortuga no se mueve.")
+        return
+
     print("Tortuga bajando...")
-    for _ in range(pasos):
-        print("↓")   # Cada flecha representa un paso hacia abajo
+
+    for _ in range(pasos - 1):
+        print("|")
+
+    print("↓")
 
     print(f"La tortuga bajó {pasos} pasos hacia abajo.")
 
@@ -74,20 +84,27 @@ Ahora la tortuga no solo avanza: también gira. Primero avanza, luego gira 90 gr
 print("Simulación de la tortuga formando una 'L' con texto.")
 
 # Distancias antes y después de girar
+print("Simulación de la tortuga formando una 'L' con texto.")
+
 pasos_derecha = int(input("¿Cuántos pasos avanza la tortuga hacia la derecha? "))
 pasos_abajo = int(input("¿Cuántos pasos avanza la tortuga hacia abajo después de girar? "))
 
-# Tramo horizontal
-print("Tortuga avanzando hacia la derecha...")
-print("→" * pasos_derecha)
+if pasos_derecha <= 0 or pasos_abajo <= 0:
+    print("La tortuga no se mueve lo suficiente para dibujar una 'L'.")
+else:
+    # Tramo horizontal
+    print("Tortuga avanzando hacia la derecha...")
+    camino_horizontal = "-" * (pasos_derecha - 1) + "→"
+    print(camino_horizontal)
 
-# Tramo vertical (debajo del último símbolo)
-print("Tortuga gira 90° a la derecha y baja...")
-for _ in range(pasos_abajo):
-    # (pasos_derecha - 1) espacios para que la flecha ↓ quede debajo del último →
-    print(" " * (pasos_derecha - 1) + "↓")
+    # Tramo vertical, alineado con la punta de la flecha
+    print("Tortuga gira 90° a la derecha y baja...")
+    columna = pasos_derecha - 1  # posición de la flecha →
+    for _ in range(pasos_abajo - 1):
+        print(" " * columna + "|")
+    print(" " * columna + "↓")
 
-print("La tortuga ha dibujado una figura en forma de 'L'.")
+    print("La tortuga ha dibujado una figura en forma de 'L'.")
 ```
 
 **Explicación:**  
@@ -118,31 +135,43 @@ Debería producir un patrón en forma de L.
 **Código en Python:**
 
 ```python
-# Posición horizontal acumulada de la tortuga (en número de pasos)
+# Posición horizontal acumulada de la tortuga
 posicion_horizontal = 0
+
 
 def adelante(n):
     """
-    Dibuja el movimiento hacia la derecha (→) por n pasos.
-    Usa la posición horizontal acumulada para saber cuántos espacios dejar antes.
+    Dibuja el movimiento hacia la derecha por n pasos:
     """
     global posicion_horizontal
-    # Dibujamos n flechas hacia la derecha, desplazadas según la posición actual
-    print(" " * posicion_horizontal + "→" * n)
-    posicion_horizontal += n   # Actualizamos la posición horizontal
+
+    if n <= 0:
+        return
+
+    camino = "-" * (n - 1) + "→"
+    # Desplazar el camino según la posición actual
+    print(" " * posicion_horizontal + camino)
+    posicion_horizontal += n
+
 
 def abajo(n):
     """
-    Dibuja el movimiento hacia abajo (↓) por n pasos,
-    manteniendo la columna donde terminó el último adelante().
+    Dibuja el movimiento hacia abajo por n pasos:
+    alineadas con la punta actual de la tortuga.
     """
     global posicion_horizontal
-    for _ in range(n):
-        # posicion_horizontal - 1 espacios para poner la flecha debajo del último →
-        print(" " * (posicion_horizontal - 1) + "↓")
 
-# Ejemplo de uso: debe formar una figura en forma de L
+    if n <= 0:
+        return
+
+    columna = posicion_horizontal - 1  # posición de la punta
+    for _ in range(n - 1):
+        print(" " * columna + "|")
+    print(" " * columna + "↓")
+
+
 if __name__ == "__main__":
+    # Ejemplo: figura en forma de L
     adelante(5)
     abajo(3)
 ```
@@ -181,22 +210,38 @@ abajo(2)
 **Código en Python:**
 
 ```python
-posicion_horizontal = 0  # Volvemos a iniciar la posición en 0
+posicion_horizontal = 0
 
 def adelante(n):
+    """
+    Tramo horizontal del escalón:
+    """
     global posicion_horizontal
-    # Tramo horizontal, desplazado por la posición acumulada
-    print(" " * posicion_horizontal + "→" * n)
+
+    if n <= 0:
+        return
+
+    camino = "-" * (n - 1) + "→"
+    print(" " * posicion_horizontal + camino)
     posicion_horizontal += n
 
 def abajo(n):
+    """
+    Tramo vertical del escalón:
+    alineadas con la punta actual.
+    """
     global posicion_horizontal
-    for _ in range(n):
-        print(" " * (posicion_horizontal - 1) + "↓")
+
+    if n <= 0:
+        return
+
+    columna = posicion_horizontal - 1
+    for _ in range(n - 1):
+        print(" " * columna + "|")
+    print(" " * columna + "↓")
 
 if __name__ == "__main__":
-    print("Tortuga bajando escalones con texto.
-")
+    print("Tortuga bajando escalones con texto.\n")
 
     # Escalón 1
     adelante(5)
@@ -210,8 +255,7 @@ if __name__ == "__main__":
     adelante(5)
     abajo(2)
 
-    print("
-La tortuga ha bajado tres escalones.")
+    print("\nLa tortuga ha bajado tres escalones.")
 ```
 
 **Explicación:**  

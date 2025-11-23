@@ -210,7 +210,9 @@ abajo(2)
 **Código en Python:**
 
 ```python
+# Posición horizontal acumulada de la tortuga
 posicion_horizontal = 0
+
 
 def adelante(n):
     """
@@ -225,10 +227,10 @@ def adelante(n):
     print(" " * posicion_horizontal + camino)
     posicion_horizontal += n
 
+
 def abajo(n):
     """
-    Tramo vertical del escalón:
-    alineadas con la punta actual.
+    Tramo vertical del escalón: 
     """
     global posicion_horizontal
 
@@ -240,22 +242,24 @@ def abajo(n):
         print(" " * columna + "|")
     print(" " * columna + "↓")
 
+
 if __name__ == "__main__":
     print("Tortuga bajando escalones con texto.\n")
 
-    # Escalón 1
-    adelante(5)
-    abajo(2)
+    # Pedimos los datos al usuario
+    num_escalones = int(input("¿Cuántos escalones baja la tortuga? "))
+    pasos_horiz = int(input("¿Cuántos pasos horizontales tiene cada escalón? "))
+    pasos_vert = int(input("¿Cuántos pasos verticales tiene cada escalón? "))
 
-    # Escalón 2
-    adelante(5)
-    abajo(2)
+    if num_escalones <= 0 or pasos_horiz <= 0 or pasos_vert <= 0:
+        print("\nLos valores deben ser mayores que cero. La tortuga no se mueve.")
+    else:
+        # Dibujar cada escalón
+        for i in range(num_escalones):            
+            adelante(pasos_horiz)
+            abajo(pasos_vert)
 
-    # Escalón 3
-    adelante(5)
-    abajo(2)
-
-    print("\nLa tortuga ha bajado tres escalones.")
+        print(f"\nLa tortuga ha bajado {num_escalones} escalones.")
 ```
 
 **Explicación:**  

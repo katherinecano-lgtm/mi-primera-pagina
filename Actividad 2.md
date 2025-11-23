@@ -224,3 +224,6 @@ Al repetir este patrón se forma una escalera de texto que representa a la tortu
 
 ### Referencias de IA
 
+**ChatGPT:** Asistencia en redacción y formato Markdown para la página personal.  
+  [https://chatgpt.com/share/691043dd-54ec-8011-93bc-6e99bc14527c](https://chatgpt.com/share/691043dd-54ec-8011-93bc-6e99bc14527c)
+
